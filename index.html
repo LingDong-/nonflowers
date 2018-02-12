@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="main.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Nonflowers</title>
+        
+  </head>
+  <body onload="load()">
+    
+    <div id="loader">
+      <div id="spinner">
+
+      </div>
+      <div id="load-text">Generating...&nbsp;&nbsp;&nbsp;</div>
+    </div>
+
+    <div style="display:none;" id="content" class="emerge" >
+      <div><br></div>
+      <div id="canvas-container"></div>
+      <div><br></div>
+      <table align="center" style="width:600px; ">
+        <tr><td align="right">
+          <div id="options" class="option-bar">
+            <i class="material-icons button" onclick="location.reload()">refresh</i>
+            <i class="material-icons button" onclick="makeDownload()">file_download</i>
+            <i class="material-icons button" onclick="toggle('summary','block')">list</i>
+            <i class="material-icons button" onclick="toggle('settings','table')">settings</i>
+            <i class="material-icons button" onclick="toggle('share','table')">share</i>
+          </div>
+        </td><tr>
+        
+        <tr><td>
+          <div id="summary" style="display:none" class="emerge"></div>
+        </td></tr>
+
+        <tr><td align="right">
+          <div id="settings" style="display:none" class="emerge">
+            <p>Seed: <input title="random seed" id="inp-seed"/></p>
+            <p align="center">
+              <button onclick="reloadWSeed(document.getElementById('inp-seed').value)">
+                Generate
+              </button>
+            </p>
+          </div>
+        </td></tr>
+
+        <tr><td align="right">
+          <div id="share" style="display:none" class="emerge">
+            <a id="share-twitter" target="_blank">
+              Twitter
+            </a>
+          </div>
+        </td></tr>
+
+
+      </table>
+    </div>
+    
+  </body>
+</html>

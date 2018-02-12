@@ -1,0 +1,130 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+.option-bar{
+  display:table;
+  padding: 6px 16px 0px 16px;
+  align: center;
+  background-color: #ffffff;
+  box-shadow: 1px 1px 1px #11111122;
+}
+
+.material-icons.button{
+  padding: 0px 5px 0px 5px;
+  color: #0000004d;
+}
+.material-icons.button:hover{
+  color: #000000ad;
+  cursor: pointer;
+}
+
+
+#summary {
+  background-color: #020100dd;
+  color: #ffffffdd;
+  font-family: monospace;
+}
+
+#spinner {
+  position: absolute;
+  left: 50%;
+  top: 300px;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 4px solid #0000002b;
+  border-radius: 50%;
+  border-top: 4px solid #0000005c;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.emerge {
+  position: relative;
+  -webkit-animation-name: emerge;
+  -webkit-animation-duration: 0.8s;
+  animation-name: emerge;
+  animation-duration: 0.8s
+}
+
+@-webkit-keyframes emerge {
+  from { bottom:0px; opacity:0 } 
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes emerge {
+  from{ bottom:0px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
+}
+
+#content {
+  display: none;
+  text-align: center;
+}
+#settings {
+  display:table;
+  padding: 0px 16px 0px 16px;
+  align: center;
+  background-color: #ffffff;
+  box-shadow: 1px 1px 1px #11111122;
+  color: #0000008d;
+  font-family: monospace;
+}
+#share {
+  display:table;
+  padding: 6px 16px 6px 16px;
+  align: center;
+  background-color: #ffffff;
+  box-shadow: 1px 1px 1px #11111122;
+  color: #0000008d;
+  font-family: monospace;
+}
+#load-text {
+  margin:auto;
+  position:absolute;
+  width:100%;
+  top: 390px;
+  text-align: center;
+  font-family: monospace;
+  color: #0000008d;
+}
