@@ -1,3 +1,9 @@
+// Nonflowers
+// Procedurally generated paintings of nonexistent flowers.
+// (c) Lingdong Huang 2018
+
+
+// index arrays with .x, .y, .z and negative indices
 Object.defineProperty(Array.prototype, "x", {
     get: function () {return this[0]},
     set: function (n) {this[0] = n},
@@ -10,7 +16,6 @@ Object.defineProperty(Array.prototype, "z", {
     get: function () {return this[2]},
     set: function (n) {this[2] = n},
 });
-
 for (var i = 1; i < 4; i++){
   function f(i){
     Object.defineProperty(Array.prototype, "-"+i, {
@@ -20,6 +25,8 @@ for (var i = 1; i < 4; i++){
   }
   f(i)
 }
+
+// math constants
 var rad2deg = 180/Math.PI
 var deg2rad = Math.PI/180
 var PI = Math.PI
@@ -30,6 +37,7 @@ var pow = Math.pow
 function rad(x){return x * deg2rad}
 function deg(x){return x * rad2deg}
 
+// seedable pseudo random number generator
 var Prng = new function(){
   this.s = 1234
   this.p = 999979
@@ -69,7 +77,7 @@ Math.oldRandom = Math.random
 Math.random = function(){return Prng.next()}
 Math.seed = function(x){return Prng.seed(x)}
 
-
+// parse url arguments
 function parseArgs(key2f){
   var par = window.location.href.split("?")[1]
   if (par == undefined){return}
@@ -87,11 +95,6 @@ SEED = (""+(new Date()).getTime())
 parseArgs({seed:function(x){SEED = (x==""?SEED:x)}})
 Math.seed(SEED);
 console.log(SEED)
-
-//SEED = "1518380792481"
-//SEED = ""+(new Date()).getTime()
-//Math.seed(SEED)
-
 
 
 //perlin noise adapted from p5.js
@@ -160,22 +163,23 @@ var Noise = new function(){
     for (var i = 0; i < PERLIN_SIZE + 1; i++) {perlin[i] = lcg.rand();}
   };
 }
-
+// distance between 2 coordinates in 2D
 function distance(p0,p1){
   return Math.sqrt(Math.pow(p0[0]-p1[0],2) + Math.pow(p0[1]-p1[1],2));
 }
-
+// map float from one range to another
 function mapval(value,istart,istop,ostart,ostop){
     return ostart + (ostop - ostart) * ((value - istart)*1.0 / (istop - istart))
 }
+// random element from array
 function randChoice(arr) {
   return arr[Math.floor(arr.length * Math.random())];
 }
-
+// normalized random number
 function normRand(m,M){
   return mapval(Math.random(),0,1,m,M);
 }
-
+// weighted randomness
 function wtrand(func){
   var x = Math.random()
   var y = Math.random()
@@ -185,19 +189,20 @@ function wtrand(func){
     return wtrand(func)
   }
 }
-
+// gaussian randomness
 function randGaussian(){
   return wtrand(function(x){return Math.pow(Math.E,-24*Math.pow(x-0.5,2))})*2-1
 }
-
+// sigmoid curve
 function sigmoid(x,k){
   k = (k != undefined) ? k : 10
   return 1/(1+Math.exp(-k*(x-0.5)))
 }
+// pseudo bean curve
 function bean(x){
   return pow(0.25-pow(x-0.5,2),0.5)*(2.6+2.4*pow(x,1.5))*0.54
 }
-
+// interpolate between square and circle
 var squircle = function(r,a){
   return function(th){
     while (th > PI/2){
@@ -209,19 +214,7 @@ var squircle = function(r,a){
     return r*pow(1/(pow(cos(th),a)+pow(sin(th),a)),1/a)
   }
 }
-
-function eulerMethod(fp,x0,y0,x,n){
-  var y1 = y0
-  var x1 = x0
-  var dx = (x-x0)/n
-  for (var i = 0; i < n; i++){
-    var h = fp(x1,y1);
-    x1 += dx
-    y1 += h*dx
-  }
-  return y1
-}
-
+// mid-point of an array of points
 function midPt(){
   var plist = (arguments.length == 1) ? 
     arguments[0] : Array.apply(null, arguments)
@@ -231,7 +224,7 @@ function midPt(){
             v[2]/plist.length+acc[2]]
   },[0,0,0])
 }
-
+// rational bezier curve
 function bezmh(P, w){
   w = (w == undefined) ? 1 : w
   if (P.length == 2){
@@ -255,6 +248,7 @@ function bezmh(P, w){
   }
   return plist;
 }
+// tools for vectors in 3d
 v3 = new function(){
   this.forward = [0,0,1]
   this.up = [0,1,0]
@@ -355,7 +349,7 @@ v3 = new function(){
     ]
   }
 }
-
+// rgba to css color string
 function rgba(r,g,b,a){
   r = (r != undefined) ? r:255;
   g = (g != undefined) ? g:r;
@@ -363,7 +357,7 @@ function rgba(r,g,b,a){
   a = (a != undefined) ? a:1.0;
   return "rgba("+Math.floor(r)+","+Math.floor(g)+","+Math.floor(b)+","+a.toFixed(3)+")"
 }
-
+// hsv to css color string
 function hsv(h,s,v,a){
     var c = v*s
     var x = c*(1-abs((h/60)%2-1))
@@ -373,7 +367,7 @@ function hsv(h,s,v,a){
     var [r,g,b] = [(rv+m)*255,(gv+m)*255,(bv+m)*255]
     return rgba(r,g,b,a)
 }
-
+// polygon for HTML canvas
 function polygon(args){
   var args =(args != undefined) ? args : {};
   var ctx = (args.ctx != undefined) ? args.ctx : CTX;
@@ -391,7 +385,6 @@ function polygon(args){
   for (var i = 1; i < pts.length; i++){
     ctx.lineTo(pts[i][0]+xof,pts[i][1]+yof);
   }
-
   if (fil){
     ctx.fillStyle = col;
     ctx.fill();
@@ -401,14 +394,7 @@ function polygon(args){
     ctx.stroke();
   }
 }
-function circle(r,n){
-  var P = []
-  for (var i = 0; i < n; i++){
-    var a = PI*2*i/(n-1)
-    P.push([r*cos(a),r*sin(a),0])
-  }
-  return P
-}
+// lerp hue wrapping around 360 degs
 function lerpHue(h0,h1,p){
   var methods = [
     [abs(h1-h0),     mapval(p,0,1,h0,h1)],
@@ -418,12 +404,12 @@ function lerpHue(h0,h1,p){
   methods.sort((x,y)=>(x[0]-y[0]))
   return (methods[0][1]+720)%360
 }
-
+// get rotation at given index of a poly-line
 function grot(P,ind){
   var d = v3.subtract(P[ind],P[ind-1])
   return v3.toeuler(d)
 }
-
+// generate 2d tube shape from list of points
 function tubify(args){
   var args = (args != undefined) ? args : {};
   var pts = (args.pts != undefined) ? args.pts : [];
@@ -451,7 +437,7 @@ function tubify(args){
   vtxlist1.push([pts[l][0]-w1*Math.cos(a1),(pts[l][1]-w1*Math.sin(a1))])
   return [vtxlist0,vtxlist1]
 }
-
+// line work with weight function
 function stroke(args){
   var args = (args != undefined) ? args : {};
   var pts = (args.pts != undefined) ? args.pts : [];
@@ -468,8 +454,7 @@ function stroke(args){
     ctx:ctx,fil:true,col:col,xof:xof,yof:yof})
   return [vtxlist0,vtxlist1]
 }
-
-
+// generate paper texture
 function paper(args){
   var args =(args != undefined) ? args : {};
   var col = (args.col != undefined) ? args.col : [0.98,0.91,0.74];
@@ -503,8 +488,7 @@ function paper(args){
   }
   return canvas
 }
-
-
+// generate leaf-like structure
 function leaf(args){
   var args =(args != undefined) ? args : {};
   var ctx = (args.ctx != undefined) ? args.ctx : CTX;  
@@ -521,7 +505,6 @@ function leaf(args){
   var cof = (args.cof != undefined) ? args.cof : (x) => (x)
   var ben = (args.ben != undefined) ? args.ben : 
     (x) => ([normRand(-10,10),0,normRand(-5,5)])
-
 
   var disp = v3.zero
   var crot = v3.zero
@@ -593,14 +576,13 @@ function leaf(args){
     }
     stroke({ctx:ctx,pts:P,xof:xof,yof:yof,col:rgba(0,0,0,0.3)})
   }
-  //console.log(plist)
-  
+
   stroke({ctx:ctx,pts:L,xof:xof,yof:yof,col:rgba(120,100,0,0.3)})
   stroke({ctx:ctx,pts:R,xof:xof,yof:yof,col:rgba(120,100,0,0.3)})
   return P
 }
 
-
+// generate stem-like structure
 function stem(args){
   var args =(args != undefined) ? args : {};
   var ctx = (args.ctx != undefined) ? args.ctx : CTX;  
@@ -614,7 +596,6 @@ function stem(args){
     {min:[250,0.2,0.4,1],max:[250,0.3,0.6,1]}
   var ben = (args.ben != undefined) ? args.ben : 
     (x) => ([normRand(-10,10),0,normRand(-5,5)])
-
 
   var disp = v3.zero
   var crot = v3.zero
@@ -660,8 +641,7 @@ function stem(args){
   return P
 }
 
-
-
+// generate fractal-like branches
 function branch(args){
   var args =(args != undefined) ? args : {};
   var ctx = (args.ctx != undefined) ? args.ctx : CTX;  
@@ -744,11 +724,10 @@ function branch(args){
 
 }
 
-
+// vizualize parameters into HTML table & canvas
 function vizParams(PAR){
   var div = document.createElement("div")
   var viz = ""
-  //var tabstyle = "style='border: 1px solid grey'"
   var tabstyle = "style='border: 1px solid grey'"
   viz += "<table><tr><td "+tabstyle+">Summary</td></tr><tr><td "+tabstyle+"><table><tr>"
   var cnt = 0
@@ -778,7 +757,6 @@ function vizParams(PAR){
   for (var k in PAR){
     if (typeof(PAR[k]) == "object"){
 
-      
       viz += "<td "+tabstyle+"><table><tr><td colspan='2' "+tabstyle+">"+k+"</td></tr>"
       
       for (var i in PAR[k]){
@@ -789,7 +767,6 @@ function vizParams(PAR){
         }
         viz += "</tr>"
       }
-
       viz += "</table><td>"
 
       if (cnt % 2 == 1){
@@ -804,8 +781,6 @@ function vizParams(PAR){
   for (var k in PAR){
     if (typeof(PAR[k]) == "function"){
       var lay = Layer.empty(100)
-      //lay.fillStyle ="black"
-      //lay.fillRect(0,0,lay.canvas.width,lay.canvas.height)
       lay.fillStyle ="silver"
       for (var i = 0; i < 100; i++){
         lay.fillRect(i,100-100*PAR[k](i/100,0.5),2,2)
@@ -815,8 +790,6 @@ function vizParams(PAR){
       graphs.appendChild(lay.canvas)
     }
   }
-  
-
   //console.log(viz)
   div.innerHTML += viz
   div.lastChild.lastChild.lastChild.lastChild.appendChild(graphs)
@@ -825,7 +798,7 @@ function vizParams(PAR){
 
 }
 
-
+// generate random parameters
 function genParams(){
   var randint = (x,y) => (Math.floor(normRand(x,y)))
 
@@ -933,7 +906,7 @@ function genParams(){
   return PAR
 }
 
-
+// generate a woody plant
 function woody(args){
   var args =(args != undefined) ? args : {};
   var ctx = (args.ctx != undefined) ? args.ctx : CTX;  
@@ -1045,8 +1018,7 @@ function woody(args){
 
 }
 
-
-
+// generate a herbaceous plant
 function herbal(args){
   var args =(args != undefined) ? args : {};
   var ctx = (args.ctx != undefined) ? args.ctx : CTX;  
@@ -1180,6 +1152,7 @@ function herbal(args){
   Layer.blit(ctx,lay1,{ble:"normal",xof:xref,yof:yref})
 
 }
+// collection of image filters
 var Filter = new function(){
   this.wispy = function(x,y,r,g,b,a){
     var n = Noise.noise(x*0.2,y*0.2)
@@ -1188,10 +1161,11 @@ var Filter = new function(){
   }
   this.fade = function(x,y,r,g,b,a){
     var n = Noise.noise(x*0.01,y*0.01)
-
     return [r,g,b,a*Math.min(Math.max(mapval(n,0,1,0,1),0),1)]
   }
 }
+
+// canvas context operations
 var Layer = new function(){
   this.empty = function(w,h){
     w = (w != undefined) ? w : 600;
@@ -1250,7 +1224,7 @@ var Layer = new function(){
     }
     ctx.putImageData(imgd, 0, 0);
   }
-
+  // find the dirty region - potentially optimizable
   this.bound = function(ctx){
     var xmin = ctx.canvas.width
     var xmax = 0
@@ -1280,6 +1254,7 @@ var BGCANV;
 PAPER_COL0 = [1,0.99,0.9]
 PAPER_COL1 = [0.98,0.91,0.74]
 
+// download generated image
 function makeDownload(){
   var down = document.createElement('a')
   down.innerHTML = "[Download]"
@@ -1299,6 +1274,7 @@ function makeDownload(){
   document.body.removeChild(down);
 }
 
+// toggle visibility of sub menus
 function toggle(x,disp){
   disp = (disp != undefined) ? disp : "block"
   var alle = ["summary","settings","share"]
@@ -1311,6 +1287,7 @@ function toggle(x,disp){
   }
 }
 
+// fill HTML background with paper texture
 function makeBG(){
   setTimeout(_makeBG,10)
   function _makeBG(){
@@ -1320,6 +1297,7 @@ function makeBG(){
   }
 }
 
+// generate new plant
 function generate(){
   CTX = Layer.empty();
   CTX.fillStyle ="white"
@@ -1331,7 +1309,6 @@ function generate(){
       CTX.drawImage(ppr,i,j);
     }
   }
-
   if (Math.random() <= 0.5){
     woody({ctx:CTX,xof:300,yof:550,})
   }else{
@@ -1340,24 +1317,14 @@ function generate(){
   Layer.border(CTX,squircle(0.98,3))
 }
 
-function autohideOptions(){
-  document.getElementById("options").style.display="none";
-  var hide = null;  
-  document.body.addEventListener("mousemove",function() {
-    clearTimeout(hide);
-    document.getElementById("options").style.display="table";
-    hide = setTimeout(
-      function(){document.getElementById("options").style.display="none"}, 
-      1000);
-  })
-}
+// reload page with given seed
 function reloadWSeed(s){
   var u = window.location.href.split("?")[0]
   window.location.href = u + "?seed=" + s;
 }
 
+// initialize everything
 function load(){
-
   makeBG()
   setTimeout(_load,100)
   function _load(){
@@ -1371,7 +1338,6 @@ function load(){
       +window.location.href
       +"&amp;text="+window.location.href+";hashtags=nonflowers";
   }  
-
 }
 
 
