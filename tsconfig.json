@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+      "outDir":"./build/",
+      "outFile": "./main.js",
+      "target": "es5",
+      "jsx": "react",
+      "allowJs":true,
+      "module": "amd",
+      "moduleResolution": "node",
+      "noImplicitAny": true,
+      "removeComments": false,
+      "preserveConstEnums": true,
+      "alwaysStrict": false,
+      "strictNullChecks": true,
+      "sourceMap": true,
+      "downlevelIteration": true,
+      "lib": [
+        "es2015.iterable",
+        "dom",
+        "es2015",
+      ],
+      "experimentalDecorators":false,
+      
+      "typeRoots": [
+        "./@types",
+        "./node_modules/@types/"
+      ],
+      "types":[
+      ]
+  },
+  "include": [
+    "src/**/*.js",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+      "node_modules",
+      "**/*.spec.ts",
+      "**/*.d.ts"
+  ]
+}
